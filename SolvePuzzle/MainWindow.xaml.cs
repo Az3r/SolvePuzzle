@@ -1,21 +1,14 @@
-﻿using System;
+﻿using Ookii.Dialogs.Wpf;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.IO;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
-using System.IO;
-using Ookii.Dialogs.Wpf;
-using System.Timers;
 namespace SolvePuzzle
 {
     /// <summary>
@@ -263,7 +256,7 @@ namespace SolvePuzzle
         }
 
         private BitmapSource GetBitmapSource(string path)
-        { 
+        {
             if (path is null) throw new NullReferenceException(nameof(path));
             if (File.Exists(path))
             {
@@ -320,10 +313,10 @@ namespace SolvePuzzle
             if (!(GetParent(hitResult.VisualHit, 1) is Border element)) return;
             mDragged = new DraggedElement()
             {
-                 Dragged = element,
-                 DraggingPoint = new Point(Canvas.GetLeft(element), Canvas.GetTop(element)),
-                 PickUpMousePoint = e.GetPosition(this),
-                 PickUpPoint = new Point(Canvas.GetLeft(element), Canvas.GetTop(element))
+                Dragged = element,
+                DraggingPoint = new Point(Canvas.GetLeft(element), Canvas.GetTop(element)),
+                PickUpMousePoint = e.GetPosition(this),
+                PickUpPoint = new Point(Canvas.GetLeft(element), Canvas.GetTop(element))
             };
             Panel.SetZIndex(element, int.MaxValue);
             CaptureMouse();
@@ -349,7 +342,7 @@ namespace SolvePuzzle
 
             if (mGameStatus == GAME_PAUSED || mGameStatus == GAME_END) start = dest;
             int result = mGame.Update(start, dest);
-            if (result != 0 )
+            if (result != 0)
             {
                 // Snap the piece to where it is when picked up
                 Canvas.SetLeft(mDragged.Dragged, mDragged.PickUpPoint.X);
@@ -550,7 +543,7 @@ namespace SolvePuzzle
                 RestoreDirectory = true,
                 Filter = IMAGE_FILTER
             };
-            
+
             bool? result = dialog.ShowDialog();
             if (result.Value)
             {
@@ -568,12 +561,12 @@ namespace SolvePuzzle
 
         private void TimerClicked(object sender, RoutedEventArgs e)
         {
-            if(mGameStatus == 0)
+            if (mGameStatus == 0)
             {
                 StartTimer();
                 mGameStatus = GAME_RUNNING;
             }
-            else if(mGameStatus == GAME_RUNNING)
+            else if (mGameStatus == GAME_RUNNING)
             {
                 StopTimer();
                 mGameStatus = GAME_PAUSED;
